@@ -4,6 +4,6 @@ namespace StockApp.Application.Interfaces
 {
     public interface ITaxCalculatorService
     {
-        decimal Calculate(decimal valorBase, IEnumerable<Tax> impostos);
+        decimal Calculate(decimal baseAmount, IEnumerable<Tax> taxes);
     }
 }

@@ -3,7 +3,7 @@ using StockApp.Domain.Entities;
 
 namespace StockApp.Domain.Test
 {
-    public class TaxCalculatorServiceTests
+    public class TaxCalculatorServiceUnitTest
     {
 
         #region Atributos
@@ -14,7 +14,7 @@ namespace StockApp.Domain.Test
 
         #region Construtor
 
-        public TaxCalculatorServiceTests()
+        public TaxCalculatorServiceUnitTest()
         {
             _calculator = new TaxCalculatorService();
         }

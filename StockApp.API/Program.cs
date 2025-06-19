@@ -1,3 +1,4 @@
+using StockApp.Application.Mappings;
 using StockApp.Infra.IoC;
 
 internal class Program
@@ -8,6 +9,7 @@ internal class Program
 
         // Add services to the container.
         builder.Services.AddInfrastructureAPI(builder.Configuration);
+        builder.Services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
 
         builder.Services.AddControllers();
 

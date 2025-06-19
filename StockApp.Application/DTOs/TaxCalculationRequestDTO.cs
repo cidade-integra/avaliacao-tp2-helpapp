@@ -2,7 +2,11 @@
 {
     public class TaxCalculationRequestDTO
     {
-        public decimal ValorBase { get; set; }
-        public IEnumerable<TaxDTO> Impostos { get; set; }
+        #region Atributos
+
+        public decimal BaseAmount { get; set; }
+        public IEnumerable<TaxDTO> Taxes { get; set; }
+
+        #endregion
     }
 }

@@ -25,7 +25,7 @@ namespace StockApp.Infra.IoC
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICategoryService, CategoryService>();
-            services.AddScoped<ITaxCalculatorService, CalculadoraImpostoService>();
+            services.AddScoped<ITaxCalculatorService, TaxCalculatorService>();
 
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
 

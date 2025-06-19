@@ -2,8 +2,8 @@
 {
     public class TaxDTO
     {
-        public string? Nome { get; set; }
-        public decimal Percentual { get; set; }
+        public string Name { get; set; }
+        public decimal Rate { get; set; }
 
     }
 }

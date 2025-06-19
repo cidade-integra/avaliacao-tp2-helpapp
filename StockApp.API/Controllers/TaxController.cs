@@ -13,19 +13,23 @@ namespace StockApp.API.Controllers
         private readonly ITaxCalculatorService _calculator;
         private readonly IMapper _mapper;
 
-        public TaxController(ITaxCalculatorService calculadora)
+        public TaxController(ITaxCalculatorService calculator, IMapper mapper)
         {
-            _calculator = calculadora;
+            _calculator = calculator;
+            _mapper = mapper;
         }
 
         [HttpPost("calculate")]
         public IActionResult Calculate([FromBody] TaxCalculationRequestDTO request)
         {
-            var impostosDomain = _mapper.Map<IEnumerable<Tax>>(request.Impostos);
+            if (request == null || request.Taxes == null)
+                return BadRequest("Invalid payload.");
 
-            var total = _calculator.Calculate(request.ValorBase, impostosDomain);
+            var domainTaxes = _mapper.Map<IEnumerable<Tax>>(request.Taxes);
 
-            return Ok(new { TotalImposto = total });
+            var total = _calculator.Calculate(request.BaseAmount, domainTaxes);
+
+            return Ok(new { TotalTax = total });
         }
     }
 }
