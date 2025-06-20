@@ -10,14 +10,24 @@ namespace StockApp.API.Controllers
     [ApiController]
     public class TaxController : ControllerBase
     {
+        #region Atributos
+
         private readonly ITaxCalculatorService _calculator;
         private readonly IMapper _mapper;
+
+        #endregion
+
+        #region Construtor
 
         public TaxController(ITaxCalculatorService calculator, IMapper mapper)
         {
             _calculator = calculator;
             _mapper = mapper;
         }
+
+        #endregion
+
+        #region Métodos
 
         [HttpPost("calculate")]
         public IActionResult Calculate([FromBody] TaxCalculationRequestDTO request)
@@ -31,5 +41,7 @@ namespace StockApp.API.Controllers
 
             return Ok(new { TotalTax = total });
         }
+
+        #endregion
     }
 }
