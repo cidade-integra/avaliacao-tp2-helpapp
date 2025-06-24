@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using StockApp.Domain.Entities;
 using System;
 
-namespace StockApp.Infra.Data.Context
+namespace Infra.Data.Context
 {
     public class ApplicationDbContext : DbContext
     {

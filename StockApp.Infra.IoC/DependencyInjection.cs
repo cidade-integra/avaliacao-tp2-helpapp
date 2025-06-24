@@ -7,6 +7,8 @@ using StockApp.Application.Interfaces;
 using StockApp.Application.Mappings;
 using StockApp.Application.Services;
 using StockApp.Domain.Interfaces;
+using Infra.Data.Context;
+using StockApp.Infra.Data.EntityConfiguration;
 using StockApp.Infra.Data.Context;
 using StockApp.Infra.Data.Identity;
 using StockApp.Infra.Data.Repositories;

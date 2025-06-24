@@ -27,8 +27,13 @@ internal class Program
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        
+        builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
+        builder.Services.AddScoped<ITokenService, TokenService>();
+
         builder.Services.AddScoped<IProductService, ProductService>();
         builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
 
         var app = builder.Build();
 
