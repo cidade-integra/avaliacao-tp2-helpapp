@@ -3,11 +3,6 @@ using StockApp.Application.DTOs;
 using StockApp.Application.Interfaces;
 using StockApp.Domain.Entities;
 using StockApp.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StockApp.Application.Services
 {
@@ -22,10 +17,11 @@ namespace StockApp.Application.Services
             _mapper = mapper;
         }
 
-        public async Task Add(ProductDTO productDto)
+        public async Task<ProductDTO> Add(ProductDTO productDto)
         {
             var productEntity = _mapper.Map<Product>(productDto);
-            await _productRepository.Create(productEntity);
+            var createProduct = await _productRepository.Create(productEntity);
+            return _mapper.Map<ProductDTO>(createProduct);
         }
 
         public async Task<IEnumerable<ProductDTO>> GetProducts()
