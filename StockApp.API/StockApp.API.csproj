@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\StockApp.Application\StockApp.Application.csproj" />
+    <ProjectReference Include="..\StockApp.Domain.Test\StockApp.Domain.Test.csproj" />
+    <ProjectReference Include="..\StockApp.Domain\StockApp.Domain.csproj" />
+    <ProjectReference Include="..\StockApp.Infra.Data\StockApp.Infra.Data.csproj" />
     <ProjectReference Include="..\StockApp.Infra.IoC\StockApp.Infra.IoC.csproj" />
   </ItemGroup>
 

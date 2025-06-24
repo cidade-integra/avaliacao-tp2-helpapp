@@ -1,3 +1,6 @@
+using Application.Interfaces;
+using Application.Settings;
+using Infra.Data.Services;
 using StockApp.Infra.IoC;
 
 internal class Program
@@ -13,7 +16,9 @@ internal class Program
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-
+        
+        builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
+        builder.Services.AddScoped<ITokenService, TokenService>();
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

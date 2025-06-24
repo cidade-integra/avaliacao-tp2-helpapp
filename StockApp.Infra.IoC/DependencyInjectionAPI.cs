@@ -6,7 +6,7 @@ using StockApp.Application.Interfaces;
 using StockApp.Application.Mappings;
 using StockApp.Application.Services;
 using StockApp.Domain.Interfaces;
-using StockApp.Infra.Data.Context;
+using Infra.Data.Context;
 using StockApp.Infra.Data.Repositories;
 
 
