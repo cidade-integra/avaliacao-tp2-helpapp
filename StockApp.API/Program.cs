@@ -5,7 +5,9 @@ using StockApp.Domain.Interfaces;
 using StockApp.Infra.Data.Repositories;
 using StockApp.Application.Mappings;
 using StockApp.Infra.IoC;
-using Application.Settings;
+using StockApp.Application.Settings;
+using StockApp.Infra.Data.Services;
+using Stockapp.Application.Interfaces;
 
 internal class Program
 {

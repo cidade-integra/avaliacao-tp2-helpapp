@@ -1,7 +1,7 @@
-﻿using Application.DTOs;
-using Domain.Entities;
+﻿using StockApp.Application.DTOs;
+using StockApp.Domain.Entities;
 
-namespace Application.Interfaces
+namespace Stockapp.Application.Interfaces
 {
     public interface ITokenService
     {

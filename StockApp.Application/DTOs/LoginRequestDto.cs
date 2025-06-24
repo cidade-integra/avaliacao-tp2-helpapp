@@ -1,4 +1,4 @@
-﻿namespace Application.DTOs
+﻿namespace StockApp.Application.DTOs
 {
     public class LoginRequestDto
     {

@@ -1,9 +1,7 @@
-﻿using Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using StockApp.Domain.Entities;
-using System;
 
-namespace Infra.Data.Context
+namespace StockApp.Infra.Data.Context
 {
     public class ApplicationDbContext : DbContext
     {

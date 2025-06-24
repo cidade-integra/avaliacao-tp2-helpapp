@@ -1,6 +1,5 @@
-﻿using Application.DTOs;
-using Application.Interfaces;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using StockApp.Application.Interfaces;
 
 namespace StockApp.WebAPI.Controllers
 {

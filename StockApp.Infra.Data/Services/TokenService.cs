@@ -1,14 +1,14 @@
-﻿using Application.DTOs;
-using Application.Interfaces;
-using Application.Settings;
-using Domain.Entities;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Stockapp.Application.Interfaces;
+using StockApp.Application.DTOs;
+using StockApp.Application.Settings;
+using StockApp.Domain.Entities;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Infra.Data.Services
+namespace StockApp.Infra.Data.Services
 {
     public class TokenService : ITokenService
     {
@@ -27,8 +27,8 @@ namespace Infra.Data.Services
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim("name", user.Name)
+                new Claim(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName?.ToString() ?? string.Empty)
             };
 
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -37,7 +37,10 @@ namespace Infra.Data.Services
                 Expires = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpirationMinutes),
                 Issuer = _jwtSettings.Issuer,
                 Audience = _jwtSettings.Audience,
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha256
+                )
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -45,7 +48,7 @@ namespace Infra.Data.Services
             return new TokenResponseDto
             {
                 Token = tokenHandler.WriteToken(token),
-                Expiration = tokenDescriptor.Expires.Value
+                Expiration = tokenDescriptor.Expires ?? DateTime.UtcNow.AddMinutes(_jwtSettings.ExpirationMinutes)
             };
         }
     }

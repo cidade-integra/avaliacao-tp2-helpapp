@@ -1,6 +1,6 @@
-﻿using Application.DTOs;
+﻿using StockApp.Application.DTOs;
 
-namespace Application.Interfaces
+namespace StockApp.Application.Interfaces
 {
     public interface IAuthService
     {
