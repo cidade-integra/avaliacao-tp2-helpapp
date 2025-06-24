@@ -2,6 +2,8 @@ using StockApp.Application.Interfaces;
 using StockApp.Application.Services;
 using StockApp.Domain.Interfaces;
 using StockApp.Infra.Data.Repositories;
+using StockApp.Application.Mappings;
+
 using StockApp.Infra.IoC;
 
 internal class Program
@@ -12,6 +14,8 @@ internal class Program
 
         // Add services to the container.
         builder.Services.AddInfrastructureAPI(builder.Configuration);
+        builder.Services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
+        builder.Services.AddHttpClient<IPriceQuoteService, PriceQuoteService>();
 
         builder.Services.AddControllers();
 
