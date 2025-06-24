@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StockApp.Application.Interfaces; 
-using StockApp.Domain.Entities;        
-using System.Threading.Tasks;
+using StockApp.Application.DTOs;
+using StockApp.Application.Interfaces;
+using StockApp.Domain.Entities;
 
-namespace WebApi.Controllers
+namespace StockApp.API.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -16,21 +16,34 @@ namespace WebApi.Controllers
             _productService = productService;
         }
 
+
+        [HttpPost]
+        public async Task<ActionResult<ProductDTO>> Create(ProductDTO productDto)
+        {
+            if (productDto == null)
+            {
+                return BadRequest("Invalid data.");
+            }
+
+            var product = await _productService.Add(productDto);
+            return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
+        }
+        [HttpGet("{id}", Name = "GetById")]
+        public async Task<ActionResult<ProductDTO>> GetProductById(int id)
+        {
+            var product = await _productService.GetProductById(id);
+            if(product == null)
+            {
+                return NotFound("Product not found");
+            }
+            return Ok(product);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var products = await _productService.GetProducts();
             return Ok(products);
-        }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(int id)
-        {
-            var product = await _productService.GetProductById(id);
-            if (product == null)
-                return NotFound();
-
-            return Ok(product);
         }
     }
 }
