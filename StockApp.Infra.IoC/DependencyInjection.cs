@@ -9,13 +9,9 @@ using StockApp.Application.Services;
 using StockApp.Domain.Interfaces;
 using Infra.Data.Context;
 using StockApp.Infra.Data.EntityConfiguration;
+using StockApp.Infra.Data.Context;
 using StockApp.Infra.Data.Identity;
 using StockApp.Infra.Data.Repositories;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace StockApp.Infra.IoC
 {
@@ -34,8 +30,12 @@ namespace StockApp.Infra.IoC
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ITaxCalculatorService, TaxCalculatorService>();
+                        
 
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
 

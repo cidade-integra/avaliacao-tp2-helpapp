@@ -1,7 +1,11 @@
-using Application.Interfaces;
-using Application.Settings;
-using Infra.Data.Services;
+using Microsoft.Extensions.Configuration;
+using StockApp.Application.Interfaces;
+using StockApp.Application.Services;
+using StockApp.Domain.Interfaces;
+using StockApp.Infra.Data.Repositories;
+using StockApp.Application.Mappings;
 using StockApp.Infra.IoC;
+using Application.Settings;
 
 internal class Program
 {
@@ -12,6 +16,13 @@ internal class Program
         // Add services to the container.
         builder.Services.AddInfrastructureAPI(builder.Configuration);
 
+        // JWT Settings e AuthService
+        builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
+        builder.Services.AddScoped<IAuthService, AuthService>();
+
+        builder.Services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
+        builder.Services.AddHttpClient<IPriceQuoteService, PriceQuoteService>();
+
         builder.Services.AddControllers();
 
         builder.Services.AddEndpointsApiExplorer();
@@ -19,6 +30,11 @@ internal class Program
         
         builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
         builder.Services.AddScoped<ITokenService, TokenService>();
+
+        builder.Services.AddScoped<IProductService, ProductService>();
+        builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -29,11 +45,10 @@ internal class Program
         }
 
         app.UseHttpsRedirection();
-
         app.UseAuthorization();
-
         app.MapControllers();
 
         app.Run();
+
     }
 }
