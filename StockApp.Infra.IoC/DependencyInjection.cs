@@ -7,9 +7,8 @@ using StockApp.Application.Interfaces;
 using StockApp.Application.Mappings;
 using StockApp.Application.Services;
 using StockApp.Domain.Interfaces;
-using Infra.Data.Context;
-using StockApp.Infra.Data.EntityConfiguration;
 using StockApp.Infra.Data.Context;
+using StockApp.Infra.Data.EntityConfiguration;
 using StockApp.Infra.Data.Identity;
 using StockApp.Infra.Data.Repositories;
 
@@ -35,7 +34,7 @@ namespace StockApp.Infra.IoC
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ITaxCalculatorService, TaxCalculatorService>();
-                        
+            services.AddScoped<ISupplierRepository, SupplierRepository>();           
 
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
 
