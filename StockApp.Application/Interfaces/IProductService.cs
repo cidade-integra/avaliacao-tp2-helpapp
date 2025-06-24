@@ -11,7 +11,7 @@ namespace StockApp.Application.Interfaces
     {
         Task<IEnumerable<ProductDTO>> GetProducts();
         Task<ProductDTO> GetProductById(int? id);
-        Task Add(ProductDTO productDto);
+        Task<ProductDTO> Add(ProductDTO productDTO);
         Task Update(ProductDTO productDto);
         Task Remove(int? id);
     }
