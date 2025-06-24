@@ -24,10 +24,10 @@ namespace StockApp.API.Controllers
             }
 
             var product = await _productService.Add(productDto);
-            return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
+            return CreatedAtAction(nameof(GetProductById), new { id = product.Id }, product);
         }
         [HttpGet("{id}", Name = "GetById")]
-        public async Task<ActionResult<ProductDTO>> GetById(int id)
+        public async Task<ActionResult<ProductDTO>> GetProductById(int id)
         {
             var product = await _productService.GetProductById(id);
             if(product == null)
