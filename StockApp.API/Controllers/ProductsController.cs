@@ -10,10 +10,12 @@ namespace StockApp.API.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
+
         public ProductsController(IProductService productService)
         {
             _productService = productService;
         }
+
 
         [HttpPost]
         public async Task<ActionResult<ProductDTO>> Create(ProductDTO productDto)
@@ -35,6 +37,13 @@ namespace StockApp.API.Controllers
                 return NotFound("Product not found");
             }
             return Ok(product);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var products = await _productService.GetProducts();
+            return Ok(products);
         }
     }
 }

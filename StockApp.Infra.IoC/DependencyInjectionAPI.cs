@@ -9,7 +9,6 @@ using StockApp.Domain.Interfaces;
 using StockApp.Infra.Data.Context;
 using StockApp.Infra.Data.Repositories;
 
-
 namespace StockApp.Infra.IoC
 {
     public static class DependencyInjectionAPI
@@ -25,7 +24,8 @@ namespace StockApp.Infra.IoC
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICategoryService, CategoryService>();
-
+            services.AddScoped<ITaxCalculatorService, TaxCalculatorService>();
+            
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
 
             var myhandlers = AppDomain.CurrentDomain.Load("StockApp.Application");
