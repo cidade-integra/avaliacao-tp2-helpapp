@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StockApp.Application.DTOs;
 using StockApp.Application.Interfaces;
+using StockApp.Domain.Entities;
 
 namespace StockApp.API.Controllers
 {
@@ -9,6 +10,7 @@ namespace StockApp.API.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
+
         public ProductsController(IProductService productService)
         {
             _productService = productService;
@@ -29,6 +31,7 @@ namespace StockApp.API.Controllers
         public async Task<ActionResult<ProductDTO>> GetProductById(int id)
         {
             var product = await _productService.GetProductById(id);
+
             if (product == null)
             {
                 return NotFound("Product not found");
@@ -50,6 +53,12 @@ namespace StockApp.API.Controllers
             await _productService.Update(productDto);
             return NoContent();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var products = await _productService.GetProducts();
+            return Ok(products);
+        }
     }
 }
-
