@@ -16,7 +16,6 @@ namespace StockApp.API.Controllers
             _productService = productService;
         }
 
-
         [HttpPost]
         public async Task<ActionResult<ProductDTO>> Create(ProductDTO productDto)
         {
@@ -32,11 +31,27 @@ namespace StockApp.API.Controllers
         public async Task<ActionResult<ProductDTO>> GetProductById(int id)
         {
             var product = await _productService.GetProductById(id);
-            if(product == null)
+
+            if (product == null)
             {
                 return NotFound("Product not found");
             }
             return Ok(product);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(int id, ProductDTO productDto)
+        {
+            if (id != productDto.Id)
+            {
+                return BadRequest();
+            }
+            if (productDto == null)
+            {
+                return BadRequest("Invalid data.");
+            }
+            await _productService.Update(productDto);
+            return NoContent();
         }
 
         [HttpGet]
