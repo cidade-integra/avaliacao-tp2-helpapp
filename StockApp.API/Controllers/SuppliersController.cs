@@ -54,5 +54,16 @@ namespace StockApp.API.Controllers
             await _supplierRepository.Remove(id);
             return NoContent();
         }
+
+        [HttpGet("search", Name = "SearchSuppliers")]
+        public async Task<ActionResult<IEnumerable<Supplier>>> Search([FromQuery] string name, [FromQuery] string contactEmail)
+        {
+            var suppliers = await _supplierRepository.Search(name, contactEmail);
+            if(suppliers == null || !suppliers.Any())
+            {
+                return NotFound("No suppliers found with the given criteria");
+            }
+            return Ok(suppliers);
+        }
     }
 }
