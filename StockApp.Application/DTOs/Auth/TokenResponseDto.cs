@@ -1,4 +1,4 @@
-﻿namespace Application.DTOs.Auth
+﻿namespace StockApp.Application.DTOs.Auth
 {
     public class TokenResponseDto
     {

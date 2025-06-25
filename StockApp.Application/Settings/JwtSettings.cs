@@ -1,4 +1,4 @@
-﻿namespace Application.Settings
+﻿namespace StockApp.Application.Settings
 {
     public class JwtSettings
     {

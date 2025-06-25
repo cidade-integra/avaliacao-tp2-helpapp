@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StockApp.Application.DTOs;
 using StockApp.Application.Interfaces;
-using StockApp.Domain.Entities;
 
 namespace StockApp.API.Controllers
 {

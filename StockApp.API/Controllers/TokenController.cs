@@ -1,10 +1,10 @@
-﻿using Application.DTOs;
-using Application.Interfaces;
-using Infra.Data.Context;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Stockapp.Application.Interfaces;
+using StockApp.Application.DTOs;
+using StockApp.Infra.Data.Context;
 
-namespace Api.Controllers
+namespace StockApp.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -23,7 +23,7 @@ namespace Api.Controllers
         public async Task<IActionResult> Authenticate([FromBody] LoginRequestDto loginDto)
         {
             var user = await _context.Users
-                .FirstOrDefaultAsync(u => u.Email == loginDto.Email && u.Password == loginDto.Password);
+                .FirstOrDefaultAsync(u => u.Email == loginDto.Email && u.PasswordHash == loginDto.Password);
 
             if (user == null)
                 return Unauthorized("Credenciais inválidas.");

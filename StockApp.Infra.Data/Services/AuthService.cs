@@ -1,15 +1,15 @@
-﻿using Application.DTOs;
-using Application.Interfaces;
-using Application.Settings;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using StockApp.Application.DTOs;
+using StockApp.Application.Interfaces;
+using StockApp.Application.Settings;
 using StockApp.Infra.Data.Context;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace Infra.Data.Services
+namespace StockApp.Infra.Data.Services
 {
     public class AuthService : IAuthService
     {
@@ -24,7 +24,7 @@ namespace Infra.Data.Services
 
         public async Task<TokenResponseDto> AuthenticateAsync(string email, string password)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.PasswordHash == password);
 
             if (user == null)
                 return null;
@@ -38,7 +38,7 @@ namespace Infra.Data.Services
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expiration = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpirationInMinutes);
+            var expiration = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpirationMinutes);
 
             var token = new JwtSecurityToken(
                 issuer: _jwtSettings.Issuer,

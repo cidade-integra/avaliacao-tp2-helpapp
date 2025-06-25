@@ -1,6 +1,6 @@
-﻿using StockApp.Domain.Entities;
+
 using Microsoft.EntityFrameworkCore;
-using System;
+using StockApp.Domain.Entities;
 
 namespace StockApp.Infra.Data.Context
 {
