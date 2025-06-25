@@ -11,6 +11,7 @@ namespace StockApp.Application.Mappings
             CreateMap<Category, CategoryDTO>().ReverseMap();
             CreateMap<Product, ProductDTO>().ReverseMap();
             CreateMap<Tax, TaxDTO>().ReverseMap();
+            CreateMap<Project, ProjectDTO>().ReverseMap();
         }
     }
 }
