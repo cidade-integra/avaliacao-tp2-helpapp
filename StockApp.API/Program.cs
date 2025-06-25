@@ -11,6 +11,17 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        // configuração cors
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("OpenCors", policy =>
+            {
+                policy.AllowAnyOrigin()
+                      .AllowAnyMethod()
+                      .AllowAnyHeader();
+            });
+        });
+
         // Add services to the container.
         builder.Services.AddInfrastructureAPI(builder.Configuration);
         // JWT Settings 
@@ -38,6 +49,9 @@ internal class Program
         app.UseErrorHandlerMiddleware(); // handler de manipulação de erros e registro de logs
 
         app.UseHttpsRedirection();
+
+        app.UseCors("OpenCors"); // aplicando a config cors na pipeline
+
         app.UseAuthorization();
         app.MapControllers();
 
