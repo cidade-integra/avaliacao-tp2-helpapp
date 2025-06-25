@@ -38,6 +38,8 @@ internal class Program
 
         builder.Services.AddScoped<IStockDashboardService, StockDashboardService>();
 
+        builder.Services.AddScoped<IDashboardService, DashboardService>();
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
