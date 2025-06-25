@@ -15,6 +15,7 @@ namespace StockApp.Infra.Data.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Sale> Sales { get; set; }
+        public DbSet<Project> Projects { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
