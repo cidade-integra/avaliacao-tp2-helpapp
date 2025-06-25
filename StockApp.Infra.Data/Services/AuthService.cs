@@ -4,6 +4,7 @@ using Microsoft.IdentityModel.Tokens;
 using StockApp.Application.DTOs;
 using StockApp.Application.Interfaces;
 using StockApp.Application.Settings;
+using StockApp.Domain.Validation;
 using StockApp.Infra.Data.Context;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -24,10 +25,13 @@ namespace StockApp.Infra.Data.Services
 
         public async Task<TokenResponseDto> AuthenticateAsync(string email, string password)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.PasswordHash == password);
+            DomainExceptionValidation.When(string.IsNullOrEmpty(email), "Email é Obrigatório");
+            DomainExceptionValidation.When(string.IsNullOrEmpty(password), "Senha é Obrigatória");
 
-            if (user == null)
-                return null;
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.Email == email && u.PasswordHash == password);
+
+            AuthenticationException.ThrowIf(user == null, "Usuário não Encontrado");
 
             var claims = new[]
             {
