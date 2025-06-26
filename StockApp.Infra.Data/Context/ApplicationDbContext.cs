@@ -17,7 +17,7 @@ namespace StockApp.Infra.Data.Context
         public DbSet<Sale> Sales { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<ErrorLog> ErrorLogs { get; set; }
-
+        
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

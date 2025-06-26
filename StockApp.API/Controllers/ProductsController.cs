@@ -59,5 +59,12 @@ namespace StockApp.API.Controllers
             var products = await _productService.GetProducts();
             return Ok(products);
         }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] ProductFilterDto filter)
+        {
+            var result = await _productService.SearchAsync(filter);
+            return Ok(result);
+        }
     }
 }

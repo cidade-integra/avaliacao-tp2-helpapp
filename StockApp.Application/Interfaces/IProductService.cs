@@ -9,5 +9,6 @@ namespace StockApp.Application.Interfaces
         Task<ProductDTO> Add(ProductDTO productDTO);
         Task Update(ProductDTO productDto);
         Task Remove(int? id);
+        Task<IEnumerable<ProductDTO>> SearchAsync(ProductFilterDto filter);
     }
 }
