@@ -3,6 +3,7 @@ using StockApp.Application.DTOs;
 using StockApp.Application.Interfaces;
 using StockApp.Domain.Entities;
 using StockApp.Domain.Interfaces;
+using System.Security.AccessControl;
 
 namespace StockApp.Application.Services
 {
@@ -10,11 +11,15 @@ namespace StockApp.Application.Services
     {
         private IProductRepository _productRepository;
         private IMapper _mapper;
+        private readonly INotificationEmailService _notificationEmailService;
 
-        public ProductService(IProductRepository productRepository, IMapper mapper)
+        public ProductService(IProductRepository productRepository, 
+            IMapper mapper, 
+            INotificationEmailService notificationEmailService)
         {
             _productRepository = productRepository;
             _mapper = mapper;
+            _notificationEmailService = notificationEmailService;
         }
 
         public async Task<ProductDTO> Add(ProductDTO productDto)
@@ -47,5 +52,6 @@ namespace StockApp.Application.Services
             var productEntity = _mapper.Map<Product>(productDto);
             await _productRepository.Update(productEntity);
         }
+
     }
 }
