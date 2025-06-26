@@ -68,15 +68,16 @@ namespace StockApp.API.Controllers
             var result = await _productService.SearchAsync(filter);
             return Ok(result);
 
-        [HttpPost("import")]
-        public async Task<IActionResult> ImportFromCsv(IFormFile file)
-        {
-            if (file == null || file.Length == 0)
-                return BadRequest("Arquivo inválido.");
+            [HttpPost("import")]
+            async Task<IActionResult> ImportFromCsv(IFormFile file)
+            {
+                if (file == null || file.Length == 0)
+                    return BadRequest("Arquivo inválido.");
 
-            var count = await _productImportService.ImportFromCsvAsync(file.OpenReadStream());
+                var count = await _productImportService.ImportFromCsvAsync(file.OpenReadStream());
 
-            return Ok($"{count} produtos importados com sucesso.");
+                return Ok($"{count} produtos importados com sucesso.");
+            }
         }
     }
 }

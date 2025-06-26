@@ -20,6 +20,7 @@ namespace StockApp.Infra.Data.Context
         public DbSet<ErrorLog> ErrorLogs { get; set; }
         public DbSet<Purchase> Purchases { get; set; }
         public DbSet<Supplier> Supplier { get; set;}
+        public DbSet<Feedback> Feedbacks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
