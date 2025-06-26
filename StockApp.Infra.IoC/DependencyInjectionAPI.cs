@@ -37,6 +37,8 @@ namespace StockApp.Infra.IoC
             services.AddScoped<IStockDashboardService, StockDashboardService>();
             services.AddScoped<IDashboardService, DashboardService>();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IUserAuditService, UserAuditService>();
+            services.AddScoped<IProductImportService, ProductImportService>();
 
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
 

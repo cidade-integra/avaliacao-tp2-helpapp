@@ -11,6 +11,8 @@ namespace StockApp.Domain.Entities
         public string Name { get; set; }
         public string ContactEmail { get; set; }
         public string PhoneNumber { get; set; }
+
+        public ICollection<Purchase> Purchases { get; set; }
         #endregion
 
         #region Construtores

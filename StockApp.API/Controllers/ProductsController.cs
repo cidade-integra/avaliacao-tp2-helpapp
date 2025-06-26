@@ -9,10 +9,12 @@ namespace StockApp.API.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
+        private readonly IProductImportService _productImportService;
 
-        public ProductsController(IProductService productService)
+        public ProductsController(IProductService productService, IProductImportService productImportService)
         {
             _productService = productService;
+            _productImportService = productImportService;
         }
 
         [HttpPost]
@@ -65,6 +67,16 @@ namespace StockApp.API.Controllers
         {
             var result = await _productService.SearchAsync(filter);
             return Ok(result);
+
+        [HttpPost("import")]
+        public async Task<IActionResult> ImportFromCsv(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("Arquivo inválido.");
+
+            var count = await _productImportService.ImportFromCsvAsync(file.OpenReadStream());
+
+            return Ok($"{count} produtos importados com sucesso.");
         }
     }
 }
