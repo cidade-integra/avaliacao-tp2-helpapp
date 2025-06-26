@@ -4,6 +4,8 @@ using StockApp.Application.Mappings;
 using StockApp.Application.Services;
 using StockApp.Application.Settings;
 using StockApp.Infra.IoC;
+using System.Net;
+using System.Net.Mail;
 
 internal class Program
 {
@@ -36,6 +38,22 @@ internal class Program
         builder.Services.AddEndpointsApiExplorer();
 
         builder.Services.AddSwaggerGen();
+
+        builder.Services.AddScoped<SmtpClient>(ServiceProvider =>
+        {
+            var config = ServiceProvider.GetRequiredService<IConfiguration>();
+            var emailSettings = config.GetSection("EmailSettings");
+
+            return new SmtpClient(emailSettings["Host"])
+            {
+                Port = emailSettings.GetValue<int>("Port"),
+                EnableSsl = emailSettings.GetValue<bool>("EnableSsl"),
+                Credentials = new NetworkCredential(
+                    emailSettings["Username"],
+                    emailSettings["Password"])
+            };
+        });
+        builder.Services.AddScoped<INotificationEmailService, NotificationEmailService>();
 
         var app = builder.Build();
 
