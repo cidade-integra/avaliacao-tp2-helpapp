@@ -1,17 +1,19 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using StockApp.Application.DTOs;
 using StockApp.Application.Interfaces;
 using StockApp.Domain.Entities;
 using StockApp.Domain.Interfaces;
 using System.Security.AccessControl;
 
+
 namespace StockApp.Application.Services
 {
     public class ProductService : IProductService
     {
-        private IProductRepository _productRepository;
-        private IMapper _mapper;
         private readonly INotificationEmailService _notificationEmailService;
+        private readonly IProductRepository _productRepository;
+        private readonly IMapper _mapper;
 
         public ProductService(IProductRepository productRepository, 
             IMapper mapper, 
@@ -51,6 +53,33 @@ namespace StockApp.Application.Services
         {
             var productEntity = _mapper.Map<Product>(productDto);
             await _productRepository.Update(productEntity);
+        }
+        
+        public async Task<IEnumerable<ProductDTO>> SearchAsync(ProductFilterDto filter)
+        {
+            var query = _productRepository.Query();
+
+            if (!string.IsNullOrWhiteSpace(filter.Name))
+                query = query.Where(p => p.Name.Contains(filter.Name));
+
+            if (!string.IsNullOrWhiteSpace(filter.Category))
+                query = query.Where(p => p.Category.Name == filter.Category); // ajuste se categoria for diferente
+
+            if (filter.MinQuantity.HasValue)
+                query = query.Where(p => p.Quantity >= filter.MinQuantity.Value);
+
+            if (filter.MaxQuantity.HasValue)
+                query = query.Where(p => p.Quantity <= filter.MaxQuantity.Value);
+
+            if (filter.MinPrice.HasValue)
+                query = query.Where(p => p.Price >= filter.MinPrice.Value);
+
+            if (filter.MaxPrice.HasValue)
+                query = query.Where(p => p.Price <= filter.MaxPrice.Value);
+
+            var result = await query.ToListAsync();
+
+            return _mapper.Map<IEnumerable<ProductDTO>>(result);
         }
 
     }

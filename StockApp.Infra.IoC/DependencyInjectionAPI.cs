@@ -10,6 +10,8 @@ using StockApp.Domain.Interfaces;
 using StockApp.Infra.Data.Context;
 using StockApp.Infra.Data.Repositories;
 using StockApp.Infra.Data.Services;
+using StockApp.Application.Interfaces.IRepository;
+
 
 namespace StockApp.Infra.IoC
 {
@@ -38,6 +40,9 @@ namespace StockApp.Infra.IoC
             services.AddScoped<IDashboardService, DashboardService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IUserAuditService, UserAuditService>();
+            services.AddScoped<IProductImportService, ProductImportService>();
+            services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+            services.AddScoped<IFeedbackService, FeedbackService>();
 
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
 

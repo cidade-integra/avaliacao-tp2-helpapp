@@ -18,6 +18,9 @@ namespace StockApp.Infra.Data.Context
         public DbSet<UserAuditLog> UserAuditLog { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<ErrorLog> ErrorLogs { get; set; }
+        public DbSet<Purchase> Purchases { get; set; }
+        public DbSet<Supplier> Supplier { get; set;}
+        public DbSet<Feedback> Feedbacks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
