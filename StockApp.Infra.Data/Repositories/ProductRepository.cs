@@ -8,6 +8,8 @@ namespace StockApp.Infra.Data.Repositories
     public class ProductRepository : IProductRepository
     {
         ApplicationDbContext _productContext;
+        private object _context;
+
         public ProductRepository(ApplicationDbContext context)
         {
             _productContext = context;
@@ -42,6 +44,10 @@ namespace StockApp.Infra.Data.Repositories
             _productContext.Update(product);
             await _productContext.SaveChangesAsync();
             return product;
+        }
+        public IQueryable<Product> Query()
+        {
+            return _productContext.Products.Include(p => p.Category);
         }
     }
 }

@@ -62,6 +62,12 @@ namespace StockApp.API.Controllers
             return Ok(products);
         }
 
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] ProductFilterDto filter)
+        {
+            var result = await _productService.SearchAsync(filter);
+            return Ok(result);
+
         [HttpPost("import")]
         public async Task<IActionResult> ImportFromCsv(IFormFile file)
         {
