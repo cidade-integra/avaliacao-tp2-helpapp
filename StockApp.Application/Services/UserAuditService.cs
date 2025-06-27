@@ -1,33 +1,31 @@
-﻿using StockApp.Domain.Interfaces;
-using StockApp.Infra.Data.Context;
+﻿using Microsoft.Extensions.Logging;
 using StockApp.Domain.Entities;
-using Microsoft.Extensions.Logging;
+using StockApp.Domain.Interfaces;
 
-
-namespace StockApp.Infra.Data.Services
+namespace StockApp.Application.Services
 {
     public class UserAuditService : IUserAuditService
     {
         private readonly ILogger<UserAuditService> _logger;
-        private readonly ApplicationDbContext _context;
+        private readonly IUserAuditLogRepository _repository;
 
-        public UserAuditService(ILogger<UserAuditService> logger, ApplicationDbContext context)
+        public UserAuditService(ILogger<UserAuditService> logger, IUserAuditLogRepository repository)
         {
             _logger = logger;
-            _context = context;
+            _repository = repository;
         }
 
-        public void LogUserAction(string username, string action, string? details = null)
+        public async void LogUserAction(string username, string action, string? details = null)
         {
             var logEntry = new UserAuditLog
             {
                 Username = username,
                 Action = action,
                 Details = details,
-                Timestamp = DateTime.UtcNow,
+                Timestamp = DateTime.UtcNow
             };
-            _context.UserAuditLog.Add(logEntry);
-            _context.SaveChanges();
+
+            await _repository.SaveAsync(logEntry);
 
             _logger.LogInformation(
                 "[AUDIT] User: {Username}, Action: {Action}, Details: {Details}",

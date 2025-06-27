@@ -4,8 +4,6 @@ using StockApp.Application.DTOs;
 using StockApp.Application.Interfaces;
 using StockApp.Domain.Entities;
 using StockApp.Domain.Interfaces;
-using System.Security.AccessControl;
-
 
 namespace StockApp.Application.Services
 {
@@ -15,8 +13,8 @@ namespace StockApp.Application.Services
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
 
-        public ProductService(IProductRepository productRepository, 
-            IMapper mapper, 
+        public ProductService(IProductRepository productRepository,
+            IMapper mapper,
             INotificationEmailService notificationEmailService)
         {
             _productRepository = productRepository;
@@ -54,7 +52,7 @@ namespace StockApp.Application.Services
             var productEntity = _mapper.Map<Product>(productDto);
             await _productRepository.Update(productEntity);
         }
-        
+
         public async Task<IEnumerable<ProductDTO>> SearchAsync(ProductFilterDto filter)
         {
             var query = _productRepository.Query();

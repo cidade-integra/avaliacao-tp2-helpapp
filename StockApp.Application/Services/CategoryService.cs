@@ -3,11 +3,6 @@ using StockApp.Application.DTOs;
 using StockApp.Application.Interfaces;
 using StockApp.Domain.Entities;
 using StockApp.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StockApp.Application.Services
 {
@@ -15,7 +10,7 @@ namespace StockApp.Application.Services
     {
         private ICategoryRepository _categoryRepository;
         private IMapper _mapper;
-        public CategoryService(ICategoryRepository categoryRepository,IMapper mapper) 
+        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper)
         {
             _mapper = mapper;
             _categoryRepository = categoryRepository;

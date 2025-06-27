@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StockApp.Application.Interfaces;
 
-namespace StockApp.WebAPI.Controllers
+namespace StockApp.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

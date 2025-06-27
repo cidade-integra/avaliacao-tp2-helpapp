@@ -29,8 +29,6 @@ internal class Program
         // JWT Settings 
         builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
-        builder.Services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
-
         builder.Services.AddHttpClient<IPriceQuoteService, PriceQuoteService>();
 
         builder.Services.AddControllers();
@@ -53,8 +51,7 @@ internal class Program
                     emailSettings["Password"])
             };
         });
-        builder.Services.AddScoped<INotificationEmailService, NotificationEmailService>();
-
+        
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

@@ -1,25 +1,24 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using StockApp.Application.DTOs;
 using StockApp.Application.Interfaces;
 using StockApp.Application.Settings;
+using StockApp.Domain.Interfaces;
 using StockApp.Domain.Validation;
-using StockApp.Infra.Data.Context;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace StockApp.Infra.Data.Services
+namespace StockApp.Application.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUserRepository _userRepository;
         private readonly JwtSettings _jwtSettings;
 
-        public AuthService(ApplicationDbContext context, IOptions<JwtSettings> jwtSettings)
+        public AuthService(IUserRepository userRepository, IOptions<JwtSettings> jwtSettings)
         {
-            _context = context;
+            _userRepository = userRepository;
             _jwtSettings = jwtSettings.Value;
         }
 
@@ -28,17 +27,16 @@ namespace StockApp.Infra.Data.Services
             DomainExceptionValidation.When(string.IsNullOrEmpty(email), "Email é Obrigatório");
             DomainExceptionValidation.When(string.IsNullOrEmpty(password), "Senha é Obrigatória");
 
-            var user = await _context.Users
-                .FirstOrDefaultAsync(u => u.Email == email && u.PasswordHash == password);
+            var user = await _userRepository.GetByEmailAndPasswordAsync(email, password);
 
             AuthenticationException.ThrowIf(user == null, "Usuário não Encontrado");
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                new Claim("id", user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
+            new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+            new Claim("id", user.Id.ToString()),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -59,4 +57,5 @@ namespace StockApp.Infra.Data.Services
             };
         }
     }
+
 }

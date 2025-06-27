@@ -1,7 +1,6 @@
 ﻿using StockApp.Domain.Entities;
-using System.Threading.Tasks;
 
-namespace StockApp.Application.Interfaces.IRepository
+namespace StockApp.Domain.Interfaces
 {
     public interface IFeedbackRepository
     {

@@ -9,9 +9,6 @@ using StockApp.Application.Services;
 using StockApp.Domain.Interfaces;
 using StockApp.Infra.Data.Context;
 using StockApp.Infra.Data.Repositories;
-using StockApp.Infra.Data.Services;
-using StockApp.Application.Interfaces.IRepository;
-
 
 namespace StockApp.Infra.IoC
 {
@@ -25,24 +22,35 @@ namespace StockApp.Infra.IoC
             ), b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICategoryService, CategoryService>();
+
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductService, ProductService>();
+
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ITaxCalculatorService, TaxCalculatorService>();
-            services.AddScoped<ISupplierRepository, SupplierRepository>();
+
             services.AddScoped<IProjectRepository, ProjectRepository>();
             services.AddScoped<IProjectService, ProjectService>();
-            services.AddScoped<IErrorLogRepository, ErrorLogRepository>();
-            services.AddScoped<ITokenService, TokenService>();
-            services.AddScoped<IStockDashboardService, StockDashboardService>();
+
             services.AddScoped<IDashboardService, DashboardService>();
-            services.AddScoped<IAuthService, AuthService>();
-            services.AddScoped<IUserAuditService, UserAuditService>();
-            services.AddScoped<IProductImportService, ProductImportService>();
+            services.AddScoped<IDashboardRepository, DashboardRepository>();
+
             services.AddScoped<IFeedbackRepository, FeedbackRepository>();
             services.AddScoped<IFeedbackService, FeedbackService>();
+
+            services.AddScoped<IStockDashboardRepository, StockDashboardRepository>();
+            services.AddScoped<IStockDashboardService, StockDashboardService>();
+
+            services.AddScoped<ITaxCalculatorService, TaxCalculatorService>();
+            services.AddScoped<ISupplierRepository, SupplierRepository>();
+            services.AddScoped<IErrorLogRepository, ErrorLogRepository>();
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IProductImportService, ProductImportService>();
+            services.AddScoped<INotificationEmailService, NotificationEmailService>();
+            services.AddScoped<IUserAuditLogRepository, UserAuditLogRepository>();
+            services.AddScoped<IUserAuditService, UserAuditService>();
 
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
 

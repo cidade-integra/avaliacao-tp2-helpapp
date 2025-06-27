@@ -1,7 +1,7 @@
 ﻿using StockApp.Application.DTOs;
 using StockApp.Application.Interfaces;
 using StockApp.Domain.Entities;
-using StockApp.Application.Interfaces.IRepository;
+using StockApp.Domain.Interfaces;
 
 namespace StockApp.Application.Services
 {
