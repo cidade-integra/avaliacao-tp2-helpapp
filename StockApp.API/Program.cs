@@ -62,7 +62,7 @@ internal class Program
         }
 
         app.UseErrorHandlerMiddleware(); // handler de manipulação de erros e registro de logs
-
+        app.UseStaticFiles();
         app.UseHttpsRedirection();
 
         app.UseCors("OpenCors"); // aplicando a config cors na pipeline

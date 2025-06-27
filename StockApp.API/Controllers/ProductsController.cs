@@ -79,5 +79,21 @@ namespace StockApp.API.Controllers
                 return Ok($"{count} produtos importados com sucesso.");
             }
         }
+
+        [HttpPost("upload-image")]
+        public async Task<IActionResult> UploadImage([FromForm] ProductImageUploadDto dto)
+        {
+            try
+            {
+                await _productService.UploadProductImageAsync(dto);
+                return Ok(new { message = "Imagem enviada com sucesso!" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+        }
+
     }
+
 }
