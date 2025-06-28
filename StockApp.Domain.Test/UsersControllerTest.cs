@@ -40,7 +40,7 @@ namespace StockApp.Domain.Test
 
             var result = await _usersController.Register(validUser);
 
-            result.Should().BeOfType<OkObjectResult>().Which.StatusCode.Should().Be(200);
+            result.Should().BeOfType<CreatedAtActionResult>().Which.StatusCode.Should().Be(201);
         }               
 
         [Fact(DisplayName = "Get User By Valid Id")]
@@ -52,8 +52,11 @@ namespace StockApp.Domain.Test
             _userServiceMock.Setup(x => x.GetUserByIdAsync(userId)).ReturnsAsync(expectedUser);
 
             var result = await _usersController.GetUserById(userId);
-            result.Should().BeOfType<OkObjectResult>()
-                .Which.Value.Should().BeEquivalentTo(expectedUser);
+            result.Should().BeOfType<ActionResult<UserDTO>>();
+
+            var okResult = result.Result as OkObjectResult;
+            okResult.Should().NotBeNull();
+            okResult.Value.Should().BeEquivalentTo(expectedUser);
         }
         #endregion
 
@@ -83,7 +86,8 @@ namespace StockApp.Domain.Test
 
             var result =  await _usersController.GetUserById(invalidId);
 
-            result.Should().BeOfType<NotFoundResult>();
+            var actionResult = result.Should().BeAssignableTo<ActionResult<UserDTO>>().Subject;
+            actionResult.Result.Should().BeOfType<NotFoundObjectResult>();
         }
         [Fact(DisplayName = "Register Duplicate Username")]
         public async Task Register_DuplicateUsername_ReturnsBadRequest()
@@ -96,11 +100,12 @@ namespace StockApp.Domain.Test
             };
 
             _userServiceMock.Setup(x => x.RegisterUserAsync(duplicateUser))
-                .ThrowsAsync(new System.InvalidOperationException("Username already exists."));
+                .ThrowsAsync(new InvalidOperationException("Username already exists."));
 
             var result = await _usersController.Register(duplicateUser);
-            result.Should().BeOfType<BadRequestObjectResult>()
-                .Which.Value.ToString().Should().Contain("Already exists");
+
+            var badRequestResult = result.Should().BeOfType<BadRequestObjectResult>().Subject;
+            badRequestResult.Value.Should().Be("Username already exists."); // Verificação exata
         }
         [Theory(DisplayName = "Register With Short Password")]
         [InlineData("short")]

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.TestPlatform.Common.Interfaces;
 using StockApp.Domain.Entities;
 using StockApp.Domain.Interfaces;
 

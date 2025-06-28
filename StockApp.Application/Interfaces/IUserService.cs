@@ -6,7 +6,7 @@ namespace StockApp.Application.Interfaces
     {
         Task<RegisterResult>RegisterUserAsync(UserRegisterDTO userDTO);
         Task<UserDTO> GetUserByIdAsync(int id);
-        Task<LoginResult> LoginAsync(UserLoginDTO userLogin);
+        //Task<LoginResult> LoginAsync(UserLoginDTO userLogin);
     }
 
     public class RegisterResult
