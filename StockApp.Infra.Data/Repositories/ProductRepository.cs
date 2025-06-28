@@ -50,11 +50,17 @@ namespace StockApp.Infra.Data.Repositories
             await _productContext.SaveChangesAsync();
             return product;
         }
+        
         public IQueryable<Product> Query()
         {
             return _productContext.Products.Include(p => p.Category);
         }
 
+        public async Task<IEnumerable<Product>> GetLowStockAsync(int threshold)
+        {
+            return await _productContext.Products.Where(p=>p.Stock<=threshold).ToListAsync();
+        }
+        
         public async Task UpdateAsync(Product product)
         {
             _productContext.Update(product);
@@ -66,9 +72,6 @@ namespace StockApp.Infra.Data.Repositories
             return await _productContext.Products
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(p => p.Id == productId);
-
-
         }
     }
-
 }

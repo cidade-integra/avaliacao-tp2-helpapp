@@ -81,6 +81,13 @@ namespace StockApp.API.Controllers
             }
         }
 
+        [HttpGet("low-stock")]
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetLowStock([FromQuery] int threshold)
+        {
+            var products = await _productService.GetLowStockAsync(threshold);
+            return Ok(products);
+        }
+
         [HttpPost("upload-image")]
         public async Task<IActionResult> UploadImage([FromForm] ProductImageUploadDto dto)
         {
@@ -94,7 +101,6 @@ namespace StockApp.API.Controllers
                 return BadRequest(new { error = ex.Message });
             }
         }
-
     }
 
 }

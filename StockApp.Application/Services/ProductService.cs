@@ -80,6 +80,7 @@ namespace StockApp.Application.Services
             return _mapper.Map<IEnumerable<ProductDTO>>(result);
 
         }
+        
         public async Task UploadProductImageAsync(DTOs.ProductImageUploadDto dto)
         {
             var product = await _productRepository.GetByIdAsync(dto.ProductId);
@@ -88,7 +89,7 @@ namespace StockApp.Application.Services
 
             var fileName = $"{Guid.NewGuid()}_{dto.Image.FileName}";
             var filePath = Path.Combine("wwwroot", "uploads", fileName);
-
+            
             Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
@@ -98,5 +99,12 @@ namespace StockApp.Application.Services
             product.ImageUrl = $"/uploads/{fileName}";
             await _productRepository.UpdateAsync(product);
         }
+
+        public async Task<IEnumerable<ProductDTO>> GetLowStockAsync(int threshold)
+        {
+            var productsEntity = await _productRepository.GetLowStockAsync(threshold);
+            return _mapper.Map<IEnumerable<ProductDTO>>(productsEntity);
+        }
+
     }
 }
