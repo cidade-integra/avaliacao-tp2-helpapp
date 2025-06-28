@@ -10,5 +10,6 @@ namespace StockApp.Domain.Interfaces
 
         Task<User> GetByIdAsync(int id);
         Task<User> GetByEmailAndPasswordAsync(string email, string password);
+        Task UpdateAsync(User user);
     }
 }
