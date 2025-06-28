@@ -78,7 +78,25 @@ namespace StockApp.Application.Services
             var result = await query.ToListAsync();
 
             return _mapper.Map<IEnumerable<ProductDTO>>(result);
-        }
 
+        }
+        public async Task UploadProductImageAsync(DTOs.ProductImageUploadDto dto)
+        {
+            var product = await _productRepository.GetByIdAsync(dto.ProductId);
+            if (product == null)
+                throw new Exception("Produto não encontrado.");
+
+            var fileName = $"{Guid.NewGuid()}_{dto.Image.FileName}";
+            var filePath = Path.Combine("wwwroot", "uploads", fileName);
+
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await dto.Image.CopyToAsync(stream);
+            }
+
+            product.ImageUrl = $"/uploads/{fileName}";
+            await _productRepository.UpdateAsync(product);
+        }
     }
 }

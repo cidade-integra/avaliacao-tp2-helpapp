@@ -15,7 +15,8 @@ namespace StockApp.Domain.Entities
         public int CategoryId { get; set; }
         public Category Category { get; set; }
         public int Quantity { get; set; }
-        
+        public string? ImageUrl { get; set; }
+
 
         #endregion
 
