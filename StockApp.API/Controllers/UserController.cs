@@ -21,12 +21,18 @@ namespace StockApp.API.Controllers
             if(!ModelState.IsValid) { 
                 return BadRequest(ModelState);}
 
-            var result = await _userService.RegisterUserAsync(userRegisterDTO);
+            try
+            {
+                var result = await _userService.RegisterUserAsync(userRegisterDTO);
 
-            if(result.Success)
-                return CreatedAtAction(nameof(GetUserById), new {id = result.UserId}, null);
+                if (result.Success)
+                    return CreatedAtAction(nameof(GetUserById), new { id = result.UserId }, result);
 
-            return BadRequest(result.Message);
+                return BadRequest(result.Message);
+            } catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("{id}", Name = "GetUserById")]

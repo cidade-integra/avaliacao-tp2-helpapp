@@ -56,6 +56,7 @@ namespace StockApp.API.Controllers
         }
 
         [HttpGet]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any, NoStore = false)]
         public async Task<IActionResult> GetAll()
         {
             var products = await _productService.GetProducts();
@@ -86,5 +87,20 @@ namespace StockApp.API.Controllers
             var products = await _productService.GetLowStockAsync(threshold);
             return Ok(products);
         }
+
+        [HttpPost("upload-image")]
+        public async Task<IActionResult> UploadImage([FromForm] ProductImageUploadDto dto)
+        {
+            try
+            {
+                await _productService.UploadProductImageAsync(dto);
+                return Ok(new { message = "Imagem enviada com sucesso!" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+        }
     }
+
 }

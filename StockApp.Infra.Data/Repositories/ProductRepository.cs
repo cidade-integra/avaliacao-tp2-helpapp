@@ -2,6 +2,7 @@
 using StockApp.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using StockApp.Infra.Data.Context;
+using System.Linq;
 
 namespace StockApp.Infra.Data.Repositories
 {
@@ -13,6 +14,10 @@ namespace StockApp.Infra.Data.Repositories
         public ProductRepository(ApplicationDbContext context)
         {
             _productContext = context;
+        }
+
+        public ProductRepository()
+        {
         }
 
         public async Task<Product> Create(Product product)
@@ -45,6 +50,7 @@ namespace StockApp.Infra.Data.Repositories
             await _productContext.SaveChangesAsync();
             return product;
         }
+        
         public IQueryable<Product> Query()
         {
             return _productContext.Products.Include(p => p.Category);
@@ -53,6 +59,19 @@ namespace StockApp.Infra.Data.Repositories
         public async Task<IEnumerable<Product>> GetLowStockAsync(int threshold)
         {
             return await _productContext.Products.Where(p=>p.Stock<=threshold).ToListAsync();
+        }
+        
+        public async Task UpdateAsync(Product product)
+        {
+            _productContext.Update(product);
+            await _productContext.SaveChangesAsync();
+        }
+
+        public async Task<Product> GetByIdAsync(int productId)
+        {
+            return await _productContext.Products
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(p => p.Id == productId);
         }
     }
 }
