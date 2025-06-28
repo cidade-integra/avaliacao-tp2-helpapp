@@ -79,5 +79,12 @@ namespace StockApp.API.Controllers
                 return Ok($"{count} produtos importados com sucesso.");
             }
         }
+
+        [HttpGet("low-stock")]
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> GetLowStock([FromQuery] int threshold)
+        {
+            var products = await _productService.GetLowStockAsync(threshold);
+            return Ok(products);
+        }
     }
 }

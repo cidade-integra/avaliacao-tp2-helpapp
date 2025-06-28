@@ -80,5 +80,11 @@ namespace StockApp.Application.Services
             return _mapper.Map<IEnumerable<ProductDTO>>(result);
         }
 
+        public async Task<IEnumerable<ProductDTO>> GetLowStockAsync(int threshold)
+        {
+            var productsEntity = await _productRepository.GetLowStockAsync(threshold);
+            return _mapper.Map<IEnumerable<ProductDTO>>(productsEntity);
+        }
+
     }
 }
