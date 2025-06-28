@@ -6,6 +6,7 @@ namespace StockApp.Application.Interfaces
     {
         Task<RegisterResult>RegisterUserAsync(UserRegisterDTO userDTO);
         Task<UserDTO> GetUserByIdAsync(int id);
+        //Task<LoginResult> LoginAsync(UserLoginDTO userLogin);
     }
 
     public class RegisterResult
@@ -13,5 +14,12 @@ namespace StockApp.Application.Interfaces
         public bool Success { get; set; }
         public string Message { get; set; }
         public int UserId { get; set; }
+    }
+
+    public class LoginResult
+    {
+        public bool Success { get; set; }
+        public string Token { get; set; }
+        public string Message { get; set; }
     }
 }

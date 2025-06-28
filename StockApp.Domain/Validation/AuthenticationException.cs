@@ -16,7 +16,7 @@ namespace StockApp.Domain.Validation
         {
             if (condition)
             {
-                throw new ArgumentException(message);
+                throw new AuthenticationException(message);
             }
         }        
     }
