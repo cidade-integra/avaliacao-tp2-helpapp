@@ -21,6 +21,8 @@ namespace StockApp.Infra.Data.Context
         public DbSet<Purchase> Purchases { get; set; }
         public DbSet<Supplier> Supplier { get; set;}
         public DbSet<Feedback> Feedbacks { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
