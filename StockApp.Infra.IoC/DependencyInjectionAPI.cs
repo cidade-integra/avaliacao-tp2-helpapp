@@ -54,6 +54,7 @@ namespace StockApp.Infra.IoC
             services.AddScoped<INotificationEmailService, NotificationEmailService>();
             services.AddScoped<IUserAuditLogRepository, UserAuditLogRepository>();
             services.AddScoped<IUserAuditService, UserAuditService>();
+            services.AddScoped<ISupplierRelationshipManagementService, SupplierRelationshipManagementService>();
 
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
 
