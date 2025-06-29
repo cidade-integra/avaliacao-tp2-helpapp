@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StockApp.Application.DTOs;
 using StockApp.Application.Interfaces;
+using System.Text;
 
 namespace StockApp.API.Controllers
 {
@@ -110,6 +111,14 @@ namespace StockApp.API.Controllers
         {
             var products = await _productService.SearchProductsAsync(query, sortBy, descending);
             return Ok(products);
+        }
+
+        [HttpGet("export")]
+        public async Task<IActionResult> ExportToCsv()
+        {
+            var csvData = await _productService.ExportProductsToCsvAsync();
+            var bytes = Encoding.UTF8.GetBytes(csvData);
+            return File(bytes, "text/csv", "products.csv");
         }
 
     }

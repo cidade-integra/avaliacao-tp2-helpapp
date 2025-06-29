@@ -4,6 +4,7 @@ using StockApp.Application.DTOs;
 using StockApp.Application.Interfaces;
 using StockApp.Domain.Entities;
 using StockApp.Domain.Interfaces;
+using System.Text;
 
 namespace StockApp.Application.Services
 {
@@ -111,5 +112,27 @@ namespace StockApp.Application.Services
             var products = await _productRepository.SearchAsync(query, sortBy, descending);
             return _mapper.Map<IEnumerable<ProductDTO>>(products);
         }
+
+        public async Task<string> ExportProductsToCsvAsync()
+        {
+            var products = await _productRepository.GetProducts();
+            var csv = new StringBuilder();
+            csv.AppendLine("Id,Name,Description,Price,Stock");
+
+            foreach (var p in products)
+            {
+                csv.AppendLine($"{p.Id},{Escape(p.Name)},{Escape(p.Description)},{p.Price},{p.Quantity}");
+            }
+
+            return csv.ToString();
+        }
+
+        #region Métodos privados
+        private static string Escape(string? field)
+        {
+            if (string.IsNullOrWhiteSpace(field)) return "";
+            return $"\"{field.Replace("\"", "\"\"")}\""; // escapando aspas
+        }
+        #endregion
     }
 }
