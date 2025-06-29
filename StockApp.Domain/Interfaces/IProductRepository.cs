@@ -14,5 +14,6 @@ namespace StockApp.Domain.Interfaces
         Task<IEnumerable<Product>> GetLowStockAsync(int threshold);
         Task UpdateAsync(Product product); 
         Task<Product> GetByIdAsync(int productId);
+        Task<IEnumerable<Product>> SearchAsync(string query, string sortBy, bool descending);
     }
 }
