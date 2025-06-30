@@ -4,6 +4,9 @@ using StockApp.Application.Interfaces;
 
 namespace StockApp.API.Controllers
 {
+    /// <summary>
+    /// Controlador responsável pelo envio de feedbacks dos usuários.
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class FeedbackController : ControllerBase
@@ -15,6 +18,11 @@ namespace StockApp.API.Controllers
             _service = service;
         }
 
+        /// <summary>
+        /// Envia um feedback para o sistema.
+        /// </summary>
+        /// <param name="dto">Objeto contendo a mensagem de feedback.</param>
+        /// <returns>Retorna uma mensagem de sucesso ou erro de validação.</returns>
         [HttpPost]
         public async Task<IActionResult> EnviarFeedback([FromBody] FeedbackDto dto)
         {

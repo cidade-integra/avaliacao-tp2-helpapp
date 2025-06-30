@@ -6,6 +6,9 @@ using StockApp.Domain.Entities;
 
 namespace StockApp.API.Controllers
 {
+    /// <summary>
+    /// Controlador responsável pelo cálculo de impostos.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class TaxController : ControllerBase
@@ -29,6 +32,13 @@ namespace StockApp.API.Controllers
 
         #region Métodos
 
+        /// <summary>
+        /// Calcula o valor total de impostos baseado no valor base e nas taxas informadas.
+        /// </summary>
+        /// <param name="request">Objeto contendo o valor base e as taxas a serem aplicadas.</param>
+        /// <returns>Retorna o valor total dos impostos calculados.</returns>
+        /// <response code="200">Cálculo realizado com sucesso.</response>
+        /// <response code="400">Payload inválido ou incompleto.</response>
         [HttpPost("calculate")]
         public IActionResult Calculate([FromBody] TaxCalculationRequestDTO request)
         {
