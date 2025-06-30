@@ -1,5 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
+using StockApp.Application.DTOs;
 using StockApp.Domain.Entities;
 
 namespace StockApp.Infra.Data.Context
@@ -23,6 +24,8 @@ namespace StockApp.Infra.Data.Context
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+
+        public DbSet<Purchase> PurchaseReports { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
