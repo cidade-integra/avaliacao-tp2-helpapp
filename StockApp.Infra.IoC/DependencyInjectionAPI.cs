@@ -1,14 +1,15 @@
-﻿using MediatR;
+﻿using AspNetCoreRateLimit;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Stockapp.Application.Interfaces;
 using StockApp.Application.Interfaces;
 using StockApp.Application.Mappings;
 using StockApp.Application.Services;
 using StockApp.Domain.Interfaces;
 using StockApp.Infra.Data.Context;
 using StockApp.Infra.Data.Repositories;
-
 
 namespace StockApp.Infra.IoC
 {
@@ -22,11 +23,49 @@ namespace StockApp.Infra.IoC
             ), b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICategoryService, CategoryService>();
 
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductService, ProductService>();
+
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
+
+            services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IProjectService, ProjectService>();
+
+            services.AddScoped<IDashboardService, DashboardService>();
+            services.AddScoped<IDashboardRepository, DashboardRepository>();
+
+            services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+            services.AddScoped<IFeedbackService, FeedbackService>();
+
+            services.AddScoped<IStockDashboardRepository, StockDashboardRepository>();
+            services.AddScoped<IStockDashboardService, StockDashboardService>();
+
+            services.AddScoped<ICartRepository, CartRepository>();
+            services.AddScoped<ICartService, CartService>();
+
+            services.AddScoped<ITaxCalculatorService, TaxCalculatorService>();
+            services.AddScoped<ISupplierRepository, SupplierRepository>();
+            services.AddScoped<IErrorLogRepository, ErrorLogRepository>();
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IProductImportService, ProductImportService>();
+            services.AddScoped<INotificationEmailService, NotificationEmailService>();
+            services.AddScoped<IUserAuditLogRepository, UserAuditLogRepository>();
+            services.AddScoped<IUserAuditService, UserAuditService>();
+            services.AddScoped<ISupplierRelationshipManagementService, SupplierRelationshipManagementService>();
+            services.AddScoped<IPurchaseRepository, PurchaseRepository>();
+            services.AddScoped<IPurchaseService, PurchaseService>();
+
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
+
+            // Rate Limiting
+            services.AddMemoryCache();
+            services.Configure<IpRateLimitOptions>(configuration.GetSection("IpRateLimiting"));
+            services.AddInMemoryRateLimiting();
+            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 
             var myhandlers = AppDomain.CurrentDomain.Load("StockApp.Application");
             services.AddMediatR(myhandlers);

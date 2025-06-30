@@ -1,9 +1,4 @@
 ﻿using StockApp.Application.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StockApp.Application.Interfaces
 {
@@ -11,8 +6,13 @@ namespace StockApp.Application.Interfaces
     {
         Task<IEnumerable<ProductDTO>> GetProducts();
         Task<ProductDTO> GetProductById(int? id);
-        Task Add(ProductDTO productDto);
+        Task<ProductDTO> Add(ProductDTO productDTO);
         Task Update(ProductDTO productDto);
         Task Remove(int? id);
+        Task<IEnumerable<ProductDTO>> SearchAsync(ProductFilterDto filter);
+        Task<IEnumerable<ProductDTO>> GetLowStockAsync(int threshold);
+        Task UploadProductImageAsync(ProductImageUploadDto dto);
+        Task<IEnumerable<ProductDTO>> SearchProductsAsync(string query, string sortBy, bool descending);
+        Task<string> ExportProductsToCsvAsync();
     }
 }

@@ -1,9 +1,4 @@
 ﻿using StockApp.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StockApp.Domain.Interfaces
 {
@@ -15,5 +10,10 @@ namespace StockApp.Domain.Interfaces
         Task<Product> Create(Product product);
         Task<Product> Update(Product product);
         Task<Product> Remove(Product product);
+        IQueryable<Product> Query();
+        Task<IEnumerable<Product>> GetLowStockAsync(int threshold);
+        Task UpdateAsync(Product product); 
+        Task<Product> GetByIdAsync(int productId);
+        Task<IEnumerable<Product>> SearchAsync(string query, string sortBy, bool descending);
     }
 }
