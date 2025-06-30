@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using StockApp.API.Middlewares;
 using StockApp.Application.Interfaces;
 using StockApp.Application.Mappings;
@@ -64,6 +65,8 @@ internal class Program
         app.UseErrorHandlerMiddleware(); // handler de manipulação de erros e registro de logs
         app.UseStaticFiles();
         app.UseHttpsRedirection();
+
+        app.UseIpRateLimiting();
 
         app.UseCors("OpenCors"); // aplicando a config cors na pipeline
 
