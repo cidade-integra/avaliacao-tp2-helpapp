@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AspNetCoreRateLimit;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -59,6 +60,12 @@ namespace StockApp.Infra.IoC
             services.AddScoped<IPurchaseService, PurchaseService>();
 
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
+
+            // Rate Limiting
+            services.AddMemoryCache();
+            services.Configure<IpRateLimitOptions>(configuration.GetSection("IpRateLimiting"));
+            services.AddInMemoryRateLimiting();
+            services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 
             var myhandlers = AppDomain.CurrentDomain.Load("StockApp.Application");
             services.AddMediatR(myhandlers);

@@ -16,7 +16,7 @@ internal class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
-        // configuração cors
+        // configuraÃ§Ã£o cors
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("OpenCors", policy =>
@@ -89,9 +89,11 @@ internal class Program
             app.UseSwaggerUI();
         }
 
-        app.UseErrorHandlerMiddleware(); // handler de manipulação de erros e registro de logs
+        app.UseErrorHandlerMiddleware(); // handler de manipulaÃ§Ã£o de erros e registro de logs
         app.UseStaticFiles();
         app.UseHttpsRedirection();
+
+        app.UseIpRateLimiting();
 
         app.UseCors("OpenCors"); // aplicando a config cors na pipeline
 
