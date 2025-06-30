@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using StockApp.API.Middlewares;
 using StockApp.Application.Interfaces;
 using StockApp.Application.Mappings;
@@ -6,6 +8,7 @@ using StockApp.Application.Settings;
 using StockApp.Infra.IoC;
 using System.Net;
 using System.Net.Mail;
+using System.Text;
 
 internal class Program
 {
@@ -22,6 +25,31 @@ internal class Program
                       .AllowAnyMethod()
                       .AllowAnyHeader();
             });
+        });
+
+        // JWT Settings
+        builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
+        var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+        var key = Encoding.UTF8.GetBytes(jwtSettings.SecretKey);
+
+        builder.Services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(options =>
+        {
+            options.RequireHttpsMetadata = false;
+            options.SaveToken = true;
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = jwtSettings.Issuer,
+                ValidAudience = jwtSettings.Audience,
+                IssuerSigningKey = new SymmetricSecurityKey(key)
+            };
         });
 
         // Add services to the container.
