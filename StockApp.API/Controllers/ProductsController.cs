@@ -67,18 +67,18 @@ namespace StockApp.API.Controllers
         public async Task<IActionResult> Search([FromQuery] ProductFilterDto filter)
         {
             var result = await _productService.SearchAsync(filter);
-            return Ok(result);
+            return Ok(result);            
+        }
 
-            [HttpPost("import")]
-            async Task<IActionResult> ImportFromCsv(IFormFile file)
-            {
-                if (file == null || file.Length == 0)
-                    return BadRequest("Arquivo inválido.");
+        [HttpPost("import")]
+        async Task<IActionResult> ImportFromCsv(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+                return BadRequest("Arquivo inválido.");
 
-                var count = await _productImportService.ImportFromCsvAsync(file.OpenReadStream());
+            var count = await _productImportService.ImportFromCsvAsync(file.OpenReadStream());
 
-                return Ok($"{count} produtos importados com sucesso.");
-            }
+            return Ok($"{count} produtos importados com sucesso.");
         }
 
         [HttpGet("low-stock")]
@@ -101,6 +101,16 @@ namespace StockApp.API.Controllers
                 return BadRequest(new { error = ex.Message });
             }
         }
-    }
 
+        [HttpGet("advanced-search")]
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> AdvancedSearch(
+        [FromQuery] string query,
+        [FromQuery] string sortBy = "name",
+        [FromQuery] bool descending = false)
+        {
+            var products = await _productService.SearchProductsAsync(query, sortBy, descending);
+            return Ok(products);
+        }
+
+    }
 }

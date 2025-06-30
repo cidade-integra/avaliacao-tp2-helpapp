@@ -106,5 +106,10 @@ namespace StockApp.Application.Services
             return _mapper.Map<IEnumerable<ProductDTO>>(productsEntity);
         }
 
+        public async Task<IEnumerable<ProductDTO>> SearchProductsAsync(string query, string sortBy, bool descending)
+        {
+            var products = await _productRepository.SearchAsync(query, sortBy, descending);
+            return _mapper.Map<IEnumerable<ProductDTO>>(products);
+        }
     }
 }
