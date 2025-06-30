@@ -42,6 +42,9 @@ namespace StockApp.Infra.IoC
             services.AddScoped<IStockDashboardRepository, StockDashboardRepository>();
             services.AddScoped<IStockDashboardService, StockDashboardService>();
 
+            services.AddScoped<ICartRepository, CartRepository>();
+            services.AddScoped<ICartService, CartService>();
+
             services.AddScoped<ITaxCalculatorService, TaxCalculatorService>();
             services.AddScoped<ISupplierRepository, SupplierRepository>();
             services.AddScoped<IErrorLogRepository, ErrorLogRepository>();
